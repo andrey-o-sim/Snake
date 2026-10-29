@@ -1,23 +1,29 @@
-﻿using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Snake.Wpf.Input;
+using Snake.Wpf.ViewModels;
 
 namespace Snake.Wpf;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly ShellViewModel shell;
+
+    public MainWindow(ShellViewModel shell)
     {
+        this.shell = shell;
+
         InitializeComponent();
+        DataContext = shell;
     }
+
+    private void OnKeyDown(object sender, KeyEventArgs e)
+    {
+        if (shell.Screen is IKeyboardScreen screen && screen.HandleKey(e.Key))
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void OnDeactivated(object? sender, EventArgs e) => shell.PauseOnFocusLoss();
 }
