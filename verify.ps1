@@ -41,7 +41,10 @@ param(
     [string] $Baseline = 'baseline'
 )
 
-$ErrorActionPreference = 'Stop'
+# 'Continue', not 'Stop', on purpose. dotnet and git write progress and warnings to stderr;
+# with 'Stop' PowerShell turns those into terminating errors and the script dies mid-check.
+# Every external call below is judged by its exit code instead.
+$ErrorActionPreference = 'Continue'
 Set-StrictMode -Version Latest
 
 $root = $PSScriptRoot
