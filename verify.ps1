@@ -24,6 +24,10 @@
 .PARAMETER Threshold
     Minimum line coverage of Snake.Core, in percent.
 
+.PARAMETER Baseline
+    Git tag or ref the protected files are compared against. Defaults to the release tag 0.0.0.
+    Pass an empty string to skip that check.
+
 .EXAMPLE
     ./verify.ps1 -Stage 1 -MinTests 25
 #>
@@ -38,7 +42,7 @@ param(
     [int] $Threshold = 80,
 
     # Git ref the protected files are compared against. Pass '' to skip the check.
-    [string] $Baseline = 'baseline'
+    [string] $Baseline = '0.0.0'
 )
 
 # 'Continue', not 'Stop', on purpose. dotnet and git write progress and warnings to stderr;
@@ -84,7 +88,7 @@ else {
 # ------------------------------------------------- 2. Protected files untouched
 
 # The shortest path to a green check is to weaken the check. These files define the rules,
-# so they must stay exactly as they were when the baseline was tagged.
+# so they must stay exactly as they were at the baseline tag.
 $protected = @('verify.ps1', 'Directory.Build.props', 'REQUIREMENTS.md')
 
 Write-Step "Checking protected files against '$Baseline'"
