@@ -95,12 +95,15 @@ else {
         Add-Failure "Baseline ref '$Baseline' does not exist. Create it with: git tag $Baseline"
     }
     else {
-        $changed = & git -C $root diff --name-only $Baseline -- $protected 2>&1
+        # No 2>&1 here: git writes line-ending warnings to stderr and they would be
+        # mistaken for file names.
+        $changed = @(& git -C $root diff --name-only $Baseline -- $protected |
+            Where-Object { $_ -and $_.Trim() })
 
         if ($LASTEXITCODE -ne 0) {
-            Add-Failure "git diff against '$Baseline' failed: $changed"
+            Add-Failure "git diff against '$Baseline' failed with code $LASTEXITCODE"
         }
-        elseif ($changed) {
+        elseif ($changed.Count -gt 0) {
             foreach ($file in $changed) {
                 Add-Failure "Protected file changed since '$Baseline': $file"
             }
