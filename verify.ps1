@@ -47,6 +47,10 @@ param(
 $ErrorActionPreference = 'Continue'
 Set-StrictMode -Version Latest
 
+# The BLOCKED reason and tracker rows are written in Russian. Without this the console
+# prints them as question marks, and the /goal evaluator reads that output.
+try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
+
 $root = $PSScriptRoot
 $failures = New-Object System.Collections.Generic.List[string]
 
