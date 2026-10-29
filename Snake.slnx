@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Snake.Core/Snake.Core.csproj" />
+    <Project Path="src/Snake.Wpf/Snake.Wpf.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Snake.Core.Tests/Snake.Core.Tests.csproj" />
+  </Folder>
+</Solution>
