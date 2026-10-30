@@ -35,6 +35,20 @@ dotnet build src/Snake.Wpf/Snake.Wpf.csproj -c Release
 
 ## Запустить
 
+Проще всего — скриптом `run.ps1`. Он собирает проект и запускает игру:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ./run.ps1
+```
+
+| Параметр | Что делает |
+|---|---|
+| `-Configuration Debug` | Собрать и запустить сборку Debug. По умолчанию Release. |
+| `-NoBuild` | Пропустить сборку и запустить то, что уже собрано. |
+| `-Wait` | Ждать, пока окно игры не закроется, и вернуть её код выхода. |
+
+То же самое вручную:
+
 ```powershell
 dotnet run --project src/Snake.Wpf/Snake.Wpf.csproj -c Release
 ```
